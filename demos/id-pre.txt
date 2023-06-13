@@ -1,0 +1,14 @@
+Haz clic en el botón "Crea tu nuevo DammID".
+Haz clic en el botón "Regístrate".
+Ingresa el correo electrónico "at.nttdata+30@gmail.com".
+Haz clic en el botón "Siguiente".
+Ingresa la contraseña "Inicio00".
+Haz clic en el botón "Siguiente".
+Ingresa el nombre "Test regresivo AT".
+Haz clic en el campo del código postal.
+Ingresa el código postal "08012".
+Haz clic en el botón "Siguiente".
+Selecciona el primer checkbox.
+Selecciona el segundo checkbox.
+Selecciona el tercer checkbox.
+Haz clic en el botón "Siguiente".

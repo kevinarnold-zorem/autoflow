@@ -1,0 +1,5 @@
+Ingresa en Username "testbegudesmovi@movi.es.uat"
+Ingresa en Password "August12345"
+Haz clic en Log In
+Haz clic en Detallistas
+Haz clic en el botón Alta Detallista

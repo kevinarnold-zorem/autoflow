@@ -68,6 +68,8 @@ function generateSimplifiedDom(
     'title',
   ];
 
+  console.log(element);
+
   for (const attr of allowedAttributes) {
     if (element.hasAttribute(attr)) {
       container.setAttribute(attr, element.getAttribute(attr) as string);

@@ -61,7 +61,7 @@ async function drawClickAtPosition(x: number,y: number) {
 
   // Crear el elemento visual para mostrar la posición del clic
   const visualElementId = `zorem-click-visual-element-${Date.now()}`;
-  console.log(visualElementId);
+  //console.log(visualElementId);
 
   const createVisualElementScript = `
     const visualElement = document.createElement('div');
@@ -110,6 +110,7 @@ async function clickAtPosition(
 }
 
 async function click(payload: { elementId: number }) {
+  console.log("Se realizo un Click");
   const objectId = await getObjectId(payload.elementId);
   await scrollIntoView(objectId);
   const { x, y } = await getCenterCoordinates(objectId);
@@ -117,7 +118,7 @@ async function click(payload: { elementId: number }) {
   // Obtener información sobre el nodo
   const nodeInfo = (await sendCommand('DOM.describeNode', { objectId })) as any;
   console.log('Información del nodo:', JSON.stringify(nodeInfo.node));
-  console.log(nodeInfo.node.attributes);
+  //console.log(nodeInfo.node.attributes);
 
   // Generaremos un if para el elemento checkbox cambiando las coordenadas del clic
   if(nodeInfo.node.nodeName.toLowerCase() === 'input' &&  nodeInfo.node.attributes && nodeInfo.node.attributes.includes('checkbox')){
@@ -162,6 +163,7 @@ async function setValue(payload: {
   elementId: number;
   value: string;
 }): Promise<void> {
+  console.log("Se realizo un SetValue");
   const objectId = await getObjectId(payload.elementId);
   await scrollIntoView(objectId);
   const { x, y } = await getCenterCoordinates(objectId);
@@ -189,7 +191,7 @@ export const callDOMAction = async <T extends ActionName>(
 ): Promise<void> => {
   // @ts-expect-error - we know that the type is valid
   await domActions[type](payload);
-  await sleep(1500);
+  await sleep(2000);
   
 };
 

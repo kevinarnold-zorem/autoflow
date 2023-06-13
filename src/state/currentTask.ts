@@ -96,12 +96,13 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
             });
             break;
           }
-          console.log("pageDOM: "+pageDOM.outerHTML);
+          //console.log("pageDOM: "+pageDOM.outerHTML);
           const html = pageDOM.outerHTML;
 
           if (wasStopped()) break;
           setActionStatus('transforming-dom');
           const currentDom = templatize(html);
+          //console.log("currentDom: "+pageDOM.outerHTML);
           
           const previousActions = get()
             .currentTask.history.map((entry) => entry.action)
@@ -163,7 +164,7 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
 
           // Agregado: Capturar una captura de pantalla después de cada acción
           if (!wasStopped()) {
-            await captureScreenshot(`screenshot_${get().currentTask.history.length}`);
+            captureScreenshot(`screenshot_${get().currentTask.history.length}`);
           }
 
           if (wasStopped()) break;

@@ -1,7 +1,7 @@
 export const availableActions = [
   {
     name: 'click',
-    description: 'Clicks on an element',
+    description: 'Haz clic en un elemento',
     args: [
       {
         name: 'elementId',
@@ -11,7 +11,7 @@ export const availableActions = [
   },
   {
     name: 'setValue',
-    description: 'Focuses on and sets the value of an input element',
+    description: 'Enfoca y establece el valor de un elemento de entrada.',
     args: [
       {
         name: 'elementId',
@@ -25,12 +25,12 @@ export const availableActions = [
   },
   {
     name: 'finish',
-    description: 'Indicates the task is finished',
+    description: 'Indica que la tarea se ha completado.',
     args: [],
   },
   {
     name: 'fail',
-    description: 'Indicates that you are unable to complete the task',
+    description: 'Indica que no puedes completar la tarea.',
     args: [],
   },
 ] as const;
