@@ -110,14 +110,14 @@ async function clickAtPosition(
 }
 
 async function click(payload: { elementId: number }) {
-  console.log("Se realizo un Click");
+  //console.log("Se realizo un Click");
   const objectId = await getObjectId(payload.elementId);
   await scrollIntoView(objectId);
   const { x, y } = await getCenterCoordinates(objectId);
 
   // Obtener información sobre el nodo
   const nodeInfo = (await sendCommand('DOM.describeNode', { objectId })) as any;
-  console.log('Información del nodo:', JSON.stringify(nodeInfo.node));
+  //console.log('Información del nodo:', JSON.stringify(nodeInfo.node));
   //console.log(nodeInfo.node.attributes);
 
   // Generaremos un if para el elemento checkbox cambiando las coordenadas del clic
@@ -163,7 +163,7 @@ async function setValue(payload: {
   elementId: number;
   value: string;
 }): Promise<void> {
-  console.log("Se realizo un SetValue");
+  //console.log("Se realizo un SetValue");
   const objectId = await getObjectId(payload.elementId);
   await scrollIntoView(objectId);
   const { x, y } = await getCenterCoordinates(objectId);
@@ -191,22 +191,18 @@ export const callDOMAction = async <T extends ActionName>(
 ): Promise<void> => {
   // @ts-expect-error - we know that the type is valid
   await domActions[type](payload);
-  await sleep(2000);
+  await sleep(3000);
   
 };
 
-export const captureScreenshot = async (filename: string) => {
-  return new Promise<void>((resolve, reject) => {
+export const captureScreenshot = async (): Promise<string> => {
+  return new Promise<string>((resolve, reject) => {
     chrome.tabs.captureVisibleTab({ format: 'png' }, (dataUrl) => {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError);
         reject(chrome.runtime.lastError.message);
       } else if (dataUrl) {
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = `${filename}.png`;
-        link.click();
-        resolve();
+        resolve(dataUrl);
       } else {
         reject('Failed to capture screenshot');
       }

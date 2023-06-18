@@ -122,7 +122,7 @@ export async function determineNextAction(
   const prompt = formatPrompt(taskInstructions, previousActions, simplifiedDOM);
   const key = useAppState.getState().settings.openAIKey;
 
-  console.log("promt: "+prompt);
+  //console.log("promt: "+prompt);
 
   if (!key) {
     notifyError?.('No OpenAI key found');
@@ -135,7 +135,7 @@ export async function determineNextAction(
     })
   );
   
-  console.log("systemMessage: " + systemMessage);
+  //console.log("systemMessage: " + systemMessage);
 
   for (let i = 0; i < maxAttempts; i++) {
     try {

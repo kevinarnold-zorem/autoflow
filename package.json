@@ -38,6 +38,7 @@
     "react-syntax-highlighter": "^15.5.0",
     "react-textarea-autosize": "^8.4.1",
     "react-use": "^17.4.0",
+    "request": "^2.88.2",
     "zustand": "^4.3.6"
   },
   "devDependencies": {

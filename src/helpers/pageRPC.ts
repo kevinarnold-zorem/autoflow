@@ -100,39 +100,6 @@ export const callRPC = async <T extends MethodName>(
   throw err;
 };
 
-async function captureScreenshot(stepName: string) {
-  let queryOptions = { active: true, currentWindow: true };
-  let activeTab = (await chrome.tabs.query(queryOptions))[0];
-
-  // If the active tab is a chrome-extension:// page, then we need to get some random other tab for testing
-  if (activeTab.url?.startsWith('chrome')) {
-    queryOptions = { active: false, currentWindow: true };
-    activeTab = (await chrome.tabs.query(queryOptions))[0];
-  }
-
-  if (!activeTab?.id) throw new Error('No active tab found');
-
-  const screenshot = await chrome.tabs.captureVisibleTab(activeTab.id, { format: 'png' });
-  const screenshotData = screenshot.slice(22);
-  const binaryData = atob(screenshotData);
-  const arrayBuffer = new ArrayBuffer(binaryData.length);
-  const uintArray = new Uint8Array(arrayBuffer);
-
-  for (let i = 0; i < binaryData.length; i++) {
-    uintArray[i] = binaryData.charCodeAt(i);
-  }
-
-  const blob = new Blob([uintArray], { type: 'image/png' });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `screenshot_${stepName}.png`;
-  link.click();
-
-  URL.revokeObjectURL(url);
-}
-
 const isKnownMethodName = (type: string): type is MethodName => {
   return type in rpcMethods;
 };

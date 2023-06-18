@@ -57,7 +57,7 @@ function generateSimplifiedDom(
 
   const container = document.createElement(element.tagName);
 
-  const allowedAttributes = [
+  /*const allowedAttributes = [
     'aria-label',
     'data-name',
     'name',
@@ -66,13 +66,14 @@ function generateSimplifiedDom(
     'value',
     'role',
     'title',
-  ];
+  ];*/
 
-  console.log(element);
+  //console.log(element);
 
-  for (const attr of allowedAttributes) {
-    if (element.hasAttribute(attr)) {
-      container.setAttribute(attr, element.getAttribute(attr) as string);
+  //for (const attr of allowedAttributes) {
+  for (const attr of element.attributes) {
+    if (element.hasAttribute(attr.name)) {
+      container.setAttribute(attr.name, element.getAttribute(attr.name) as string);
     }
   }
   if (interactive) {

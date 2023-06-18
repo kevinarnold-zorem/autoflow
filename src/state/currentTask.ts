@@ -16,6 +16,21 @@ import { getSimplifiedDom } from '../helpers/simplifyDom';
 import { sleep, truthyFilter } from '../helpers/utils';
 import { MyStateCreator } from './store';
 
+import { addStepToReport, generateReport, ReportResponse } from '../helpers/api_reporter';
+import { addStepToGenerator } from '../helpers/api_steps';
+
+function extractValuesFromResponse(response: string): { thoughtContent: string, actionContent: string } {
+  const thoughtRegex = /<Thought>(.*?)<\/Thought>/;
+  const thoughtMatches = response.match(thoughtRegex);
+  const thoughtContent = thoughtMatches ? thoughtMatches[1] : '';
+
+  const actionRegex = /<Action>(.*?)<\/Action>/;
+  const actionMatches = response.match(actionRegex);
+  const actionContent = actionMatches ? actionMatches[1] : '';
+
+  return { thoughtContent, actionContent };
+}
+
 export type TaskHistoryEntry = {
   prompt: string;
   response: string;
@@ -60,7 +75,7 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
       };
 
       const instructions = get().ui.instructions;
-
+      
       if (!instructions || get().currentTask.status === 'running') return;
 
       set((state) => {
@@ -84,9 +99,17 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
         await attachDebugger(tabId);
         await disableIncompatibleExtensions();
 
+        const instructionList = instructions.split('\n');
+        const timestamp = new Date().getTime();
+        const projectName = `proyecto_lorem_${timestamp}`;
+
         // eslint-disable-next-line no-constant-condition
-        while (true) {
-          if (wasStopped()) break;
+        for (const instruction of instructionList) {
+          
+          if (wasStopped()) {
+            //await generateReport(projectName);
+            break;
+          } 
 
           setActionStatus('pulling-dom');
           const pageDOM = await getSimplifiedDom();
@@ -101,7 +124,8 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
 
           if (wasStopped()) break;
           setActionStatus('transforming-dom');
-          const currentDom = templatize(html);
+          //const currentDom = templatize(html);
+          const currentDom = html;
           //console.log("currentDom: "+pageDOM.outerHTML);
           
           const previousActions = get()
@@ -109,9 +133,9 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
             .filter(truthyFilter);
 
           setActionStatus('performing-query');
-
+          
           const query = await determineNextAction(
-            instructions,
+            instruction,
             previousActions.filter(
               (pa) => !('error' in pa)
             ) as ParsedResponseSuccess[],
@@ -131,6 +155,9 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
 
           setActionStatus('performing-action');
           const action = parseResponse(query.response);
+          //send Steps To Generator .js
+          const extractedValues = extractValuesFromResponse(query.response);
+          await addStepToGenerator(extractedValues.thoughtContent,extractedValues.actionContent,html);
 
           set((state) => {
             state.currentTask.history.push({
@@ -161,12 +188,13 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
               get().currentTask.tabId
             );
           }
-
-          // Agregado: Capturar una captura de pantalla después de cada acción
+          
+          // Generando reporte 
           if (!wasStopped()) {
-            captureScreenshot(`screenshot_${get().currentTask.history.length}`);
+            const imageBase64 = await captureScreenshot();
+            await addStepToReport(projectName, instruction, imageBase64);
           }
-
+          
           if (wasStopped()) break;
 
           // While testing let's automatically stop after 50 actions to avoid
@@ -179,9 +207,20 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
           // sleep 2 seconds. This is pretty arbitrary; we should figure out a better way to determine when the page has settled.
           await sleep(2000);
         }
+        
         set((state) => {
           state.currentTask.status = 'success';
         });
+
+        //generate a report at the end of the iteration of the instructions
+        const reportResponse: ReportResponse = await generateReport(projectName);
+        if (reportResponse) {
+          
+          const fileUrl = reportResponse.fileUrl;
+          console.log(`Reporte generado con éxito. URL: ${fileUrl}`);
+          
+        }
+
       } catch (e: any) {
         onError(e.message);
         set((state) => {
