@@ -157,7 +157,7 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
           const action = parseResponse(query.response);
           //send Steps To Generator .js
           const extractedValues = extractValuesFromResponse(query.response);
-          await addStepToGenerator(extractedValues.thoughtContent,extractedValues.actionContent,html);
+          await addStepToGenerator(extractedValues.thoughtContent,extractedValues.actionContent,html,projectName);
 
           set((state) => {
             state.currentTask.history.push({

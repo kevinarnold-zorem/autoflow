@@ -1,4 +1,4 @@
-export const TAXY_ELEMENT_SELECTOR = 'data-taxy-node-id';
+export const TAXY_ELEMENT_SELECTOR = 'data-lorem-node-id';
 
 // read from env
 export const debugMode = process.env.DEBUG_MODE === 'true';

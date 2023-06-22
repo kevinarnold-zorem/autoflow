@@ -5,7 +5,7 @@ const baseURL = 'http://localhost:3000'; // URL base de la API
 // Función para agregar un nuevo step con una imagen en base64 a un proyecto
 export async function addStepToReport(project: string, step: string, imageBase64: string): Promise<void> {
   try {
-    const response = await fetch(`${baseURL}/api/steps/${project}`, {
+    const response = await fetch(`${baseURL}/api/steps/report/${project}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export type ReportResponse = {
 // Función para generar el reporte de un proyecto
 export async function generateReport(project: string): Promise<ReportResponse> {
   try {
-    const response = await axios.get(`${baseURL}/api/generate/${project}`);
+    const response = await axios.get(`${baseURL}/api/generate/report/${project}`);
     const { message, fileUrl } = response.data;
     console.log(message);
     console.log('Enlace del archivo:', fileUrl);

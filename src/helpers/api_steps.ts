@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-const baseURL = 'http://localhost:4000'; // URL base de la API
+const baseURL = 'http://localhost:3000'; // URL base de la API
 
 interface JsonRequest {
   Thought: string;
@@ -9,7 +9,7 @@ interface JsonRequest {
 }
 
 // Función para agregar un nuevo step con una imagen en base64 a un proyecto
-export async function addStepToGenerator(thought: string, action: string, dom: string): Promise<void> {
+export async function addStepToGenerator(thought: string, action: string, dom: string, project: string): Promise<void> {
   try {
     // Reemplazar comillas dobles por comillas simples en las cadenas
     const modifiedThought = thought.replace(/"/g, "'");
@@ -22,7 +22,7 @@ export async function addStepToGenerator(thought: string, action: string, dom: s
       Dom: modifiedDom
     };
 
-    const response = await axios.post(`${baseURL}/api/steps`, jsonData);
+    const response = await axios.post(`${baseURL}/api/steps/automation/${project}`, jsonData);
 
     console.log(response.data);
     
