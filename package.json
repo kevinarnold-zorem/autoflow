@@ -1,11 +1,11 @@
 {
-  "name": "taxy-ai-browser-extension",
+  "name": "autoflow-ai-browser-extension",
   "version": "1.1.0",
   "description": "Web agent to do your bidding online",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com:TaxyAI/browser-extension.git"
+    "url": "https://github.com/kevinarnold-zorem/autoflow.git"
   },
   "scripts": {
     "build": "node utils/build.js",

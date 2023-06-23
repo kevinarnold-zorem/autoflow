@@ -1,6 +1,6 @@
 Haz clic en el botón "Crea tu nuevo DammID".
 Haz clic en el botón "Regístrate".
-Ingresa el correo electrónico "at.nttdata+30@gmail.com".
+Ingresa el correo electrónico "at.nttdata+35@gmail.com".
 Haz clic en el botón "Siguiente".
 Ingresa la contraseña "Inicio00".
 Haz clic en el botón "Siguiente".
@@ -11,4 +11,3 @@ Haz clic en el botón "Siguiente".
 Selecciona el primer checkbox.
 Selecciona el segundo checkbox.
 Selecciona el tercer checkbox.
-Haz clic en el botón "Siguiente".
