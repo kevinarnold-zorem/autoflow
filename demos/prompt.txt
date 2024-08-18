@@ -23,3 +23,5 @@ Solo podrás retorna la acción al orden establecido por la tarea de lo contrari
 Solo podrás retornar acciones que se puedan ejecutar con el contenido actual de la página de lo contrario tu respuesta se marcará como inválida.
 Siempre retornaras <Thought> y <Action>.
 Siempre debes incluir las etiquetas de apertura y cierre <Thought> y <Action>, de lo contrario, tu respuesta se marcará como inválida.
+
+#si mejoramos el prompt para enviar adjunta una imagen, asi obtener un mapeo de los elementos disponibles en pantalla con ubicacion x,y
